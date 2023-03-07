@@ -1,21 +1,40 @@
 package fr.uga.l3miage.library.data.domain;
 
-import jakarta.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+//import jakarta.persistence.Transient;
+import jakarta.persistence.NamedQuery;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Entity
+//NamedQuery pour all
+@NamedQuery(name="all-books",query="SELECT b FROM Book b ORDER BY b.title ")
+//NamedQuery pour findByContainingTitle
+@NamedQuery(name="find-books-by-title",query="SELECT b FROM Book b WHERE lower(b.title) LIKE lower(concat('%', :titlePart, '%'))")
+//NamedQuery pour findByAuthorIdAndContainingTitle
+@NamedQuery(name="find-books-by-author-and-title",query="SELECT b FROM Book b JOIN b.authors a JOIN a.books ab WHERE a.id= :authorId AND lower(ab.title) LIKE :titlePart")
+//NamedQuery pour findBooksByAuthorContainingName
+@NamedQuery(name="find-books-by-authors-name",query="SELECT b FROM Book b JOIN b.authors a JOIN a.books ab WHERE lower(a.fullName) LIKE lower(concat('%', :namePart, '%'))")
+//NamedQuery pour findBooksHavingAuthorCountGreaterThan
+@NamedQuery(name="find-books-by-several-authors",query="SELECT b FROM Book b JOIN b.authors JOIN a.book ab WHERE COUNT(ab.id)>")
 public class Book {
-
+    @Id @GeneratedValue
     private Long id;
     private String title;
     private long isbn;
     private String publisher;
+    @Column(name="annee")
     private short year;
     private Language language;
 
-    @Transient
+    //@Transient
+    @ManyToMany(mappedBy = "books")
     private Set<Author> authors;
 
     public Long getId() {

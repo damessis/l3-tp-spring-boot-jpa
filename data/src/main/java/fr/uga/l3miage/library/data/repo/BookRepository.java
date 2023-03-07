@@ -2,12 +2,17 @@ package fr.uga.l3miage.library.data.repo;
 
 import fr.uga.l3miage.library.data.domain.Book;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NamedQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+
+
+
 public class BookRepository implements CRUDRepository<Long, Book> {
 
     private final EntityManager entityManager;
@@ -50,7 +55,8 @@ public class BookRepository implements CRUDRepository<Long, Book> {
      */
     public List<Book> findByContainingTitle(String titlePart) {
         // TODO créer les named query
-        return entityManager.createNamedQuery("find-books-by-title", Book.class)
+        
+        return entityManager.createNamedQuery("find-books-by-title", Book.class).setParameter("titlePart", "%" + titlePart.toLowerCase() + "%")
                 // TODO completer l'appel pour utiliser le paramètre de cette méthode
                 .getResultList();
     }
@@ -63,7 +69,7 @@ public class BookRepository implements CRUDRepository<Long, Book> {
      */
     public List<Book> findByAuthorIdAndContainingTitle(Long authorId, String titlePart) {
         // TODO créer les named query
-        return entityManager.createNamedQuery("find-books-by-author-and-title", Book.class)
+        return entityManager.createNamedQuery("find-books-by-author-and-title", Book.class).setParameter("titlePart", "%" + titlePart.toLowerCase() + "%").setParameter("authorId", authorId)
                 // TODO completer l'appel pour utiliser les paramètres de cette méthode
                 .getResultList();
     }
@@ -75,7 +81,7 @@ public class BookRepository implements CRUDRepository<Long, Book> {
      */
     public List<Book> findBooksByAuthorContainingName(String namePart) {
         // TODO créer les named query
-        return entityManager.createNamedQuery("find-books-by-authors-name", Book.class)
+        return entityManager.createNamedQuery("find-books-by-authors-name", Book.class).setParameter("namePart", "%" + namePart.toLowerCase() + "%")
                 // TODO completer l'appel pour utiliser le paramètre de cette méthode
                 .getResultList();
     }

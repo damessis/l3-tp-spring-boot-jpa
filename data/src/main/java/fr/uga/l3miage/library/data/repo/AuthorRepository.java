@@ -41,8 +41,7 @@ public class AuthorRepository implements CRUDRepository<Long, Author> {
      */
     @Override
     public List<Author> all() {
-        // TODO
-        return null;
+        return entityManager.createQuery("SELECT a FROM Author a ORDER BY a.fullName", Author.class).getResultList();
     }
 
     /**
@@ -52,8 +51,8 @@ public class AuthorRepository implements CRUDRepository<Long, Author> {
      * @return une liste d'auteurs trié par nom
      */
     public List<Author> searchByName(String namePart) {
-        // TODO
-        return null;
+        return entityManager.createQuery("SELECT a FROM Author a WHERE LOWER(a.fullName) LIKE :namePart ORDER BY a.fullName", Author.class)
+        .setParameter("namePart", "%" + namePart.toLowerCase() + "%").getResultList();
     }
 
     /**
@@ -63,7 +62,10 @@ public class AuthorRepository implements CRUDRepository<Long, Author> {
      */
     public boolean checkAuthorByIdHavingCoAuthoredBooks(long authorId) {
         // TODO
-        return false;
+        return !entityManager.createQuery("SELECT a FROM Author a JOIN a.books b JOIN b.authors ba WHERE a.id = :authorId AND ba.id <> :authorId", Author.class)
+        .setParameter("authorId", authorId)
+        .getResultList()
+        .isEmpty();
     }
 
 }
