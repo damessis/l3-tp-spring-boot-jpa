@@ -44,7 +44,13 @@ public class LibrarianRepository implements CRUDRepository<String, Librarian> {
      */
     public List<Librarian> top3WorkingLibrarians() {
         
-        return entityManager.createQuery("SELECT l from Librarian l JOIN Borrow b WHERE COUNT(b.librarian) = SELECT MAX(b) from Borrow b GROUP BY b.librarian", Librarian.class).getResultList();
+        return entityManager.createQuery("SELECT l " +
+        "FROM Librarian l " +
+        "JOIN Borrow b ON l.id = b.librarian.id " +
+        "GROUP BY l.id " +
+        "ORDER BY COUNT(b) DESC", Librarian.class)
+        .setMaxResults(3)
+        .getResultList();
     }
 
 }

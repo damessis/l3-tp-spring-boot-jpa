@@ -6,14 +6,13 @@ import java.util.Set;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Librarian extends Person {
-    @Column
+   // @Column
+    @OneToOne
     private Librarian manager;
-
-    @OneToMany(mappedBy = "manager")
-    private Set<Librarian> subordinates;
 
     public Librarian getManager() {
         return manager;

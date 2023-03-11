@@ -4,12 +4,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+@Entity
 public class Borrow {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @ManyToMany
     private List<Book> books;
     private Date start;
     private Date requestedReturn;
+    @OneToOne(cascade = CascadeType.ALL)
     private User borrower;
+    @OneToOne(cascade = CascadeType.ALL)
     private Librarian librarian;
     private boolean finished;
 
