@@ -20,9 +20,9 @@ import java.util.Set;
 //NamedQuery pour findByAuthorIdAndContainingTitle
 @NamedQuery(name="find-books-by-author-and-title",query="SELECT b FROM Book b JOIN b.authors a JOIN a.books ab WHERE a.id= :authorId AND lower(ab.title) LIKE :titlePart")
 //NamedQuery pour findBooksByAuthorContainingName
-@NamedQuery(name="find-books-by-authors-name",query="SELECT b FROM Book b JOIN b.authors a JOIN a.books ab WHERE lower(a.fullName) LIKE lower(concat('%', :namePart, '%'))")
+@NamedQuery(name="find-books-by-authors-name",query="SELECT b FROM Book b JOIN b.authors a JOIN a.books ab WHERE lower(a.fullName) LIKE :namePart")
 //NamedQuery pour findBooksHavingAuthorCountGreaterThan
-@NamedQuery(name="find-books-by-several-authors",query="SELECT b FROM Book b JOIN b.authors JOIN a.book ab WHERE COUNT(ab.id)>")
+@NamedQuery(name="find-books-by-several-authors",query="SELECT b FROM Book b JOIN b.authors a JOIN a.books ab GROUP BY b HAVING COUNT(ab.id)> :count")
 public class Book {
     @Id @GeneratedValue
     private Long id;

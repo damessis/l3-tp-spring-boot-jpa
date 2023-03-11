@@ -3,12 +3,28 @@ package fr.uga.l3miage.library.data.domain;
 import java.util.Date;
 import java.util.Objects;
 
-public abstract class Person {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 
+//@Entity
+//@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+public abstract class Person {
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column
     private String id;
+    //@Column
     private Gender gender;
+    //@Column
     private String firstName;
+    //@Column
     private String lastName;
+    //@Column
     private Date birth;
 
     public enum Gender {
