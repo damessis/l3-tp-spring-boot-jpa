@@ -35,7 +35,7 @@ public class UserRepository implements CRUDRepository<String, User> {
 
     @Override
     public List<User> all() {
-        return entityManager.createQuery("from User", User.class).getResultList();
+        return entityManager.createQuery("from Utilizer", User.class).getResultList();
     }
 
     /**
@@ -44,7 +44,7 @@ public class UserRepository implements CRUDRepository<String, User> {
      * @return
      */
     public List<User> findAllOlderThan(int age) {
-        return entityManager.createQuery("SELECT u FROM User u WHERE u.age> :age", User.class)
+        return entityManager.createQuery("SELECT u FROM Utilizer u WHERE (YEAR(CURRENT_DATE) - YEAR(u.birth)) > :age", User.class)
         .setParameter("age", age)
         .getResultList();
     }

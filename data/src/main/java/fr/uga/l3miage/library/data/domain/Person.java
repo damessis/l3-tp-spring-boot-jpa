@@ -11,20 +11,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 
-//@Entity
-//@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+@Entity
+@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public abstract class Person {
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column
     private String id;
-    //@Column
+    @Column
     private Gender gender;
-    //@Column
+    @Column
     private String firstName;
-    //@Column
+    @Column
     private String lastName;
-    //@Column
+    @Column
     private Date birth;
 
     public enum Gender {

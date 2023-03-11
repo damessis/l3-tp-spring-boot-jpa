@@ -7,13 +7,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
-//@Entity
+@Entity
 public class Librarian extends Person {
-    //@Column(name = "manager",nullable = true, columnDefinition = "BLOB")
+    @Column
     private Librarian manager;
 
-    //@OneToMany(mappedBy = "manager")
-    //private Set<Librarian> subordinates;
+    @OneToMany(mappedBy = "manager")
+    private Set<Librarian> subordinates;
 
     public Librarian getManager() {
         return manager;

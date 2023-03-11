@@ -7,11 +7,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 // Attention le mot 'user' est reservé
-//@Entity
+@Entity(name = "Utilizer")
 public class User extends Person {
-    //@Column
+    @Column
     private Date registered;
-    //@Column
+    @Column
     private float lateRatio;
 
     public Date getRegistered() {
