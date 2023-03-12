@@ -116,15 +116,19 @@ class BorrowRepositoryTest extends Base {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DATE, -2);
-        Date requestedReturnDate = calendar.getTime();
-        Borrow borrowed1 = Fixtures.newBorrow(u1, l1, b1);
+        Date requestedReturnDate1 = calendar.getTime();
+        calendar.add(Calendar.DATE, 4);
+        Date requestedReturnDate2 = calendar.getTime();
+        Borrow borrowed1 = Fixtures.newBorrow(u1, l1, b1,b2);
         Borrow borrowed2 = Fixtures.newBorrow(u2, l1, b3);
-        borrowed1.setRequestedReturn(requestedReturnDate);
+        borrowed1.setRequestedReturn(requestedReturnDate1);
         borrowed1.setFinished(false);
+        borrowed2.setRequestedReturn(requestedReturnDate2);
+        borrowed2.setFinished(false);
         entityManager.persist(borrowed1);
         entityManager.persist(borrowed2);
         entityManager.flush();
-
+    
         List<Borrow> lateBorrow = repository.foundAllLateBorrow();
         assertThat(lateBorrow).containsExactly(borrowed1);
 
