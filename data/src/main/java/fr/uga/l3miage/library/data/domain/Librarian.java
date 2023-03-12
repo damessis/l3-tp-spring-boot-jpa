@@ -10,7 +10,7 @@ import jakarta.persistence.OneToOne;
 
 @Entity
 public class Librarian extends Person {
-   // @Column
+    
     @OneToOne
     private Librarian manager;
 

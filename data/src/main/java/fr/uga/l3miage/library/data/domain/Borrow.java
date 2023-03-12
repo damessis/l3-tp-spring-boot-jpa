@@ -10,20 +10,31 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 @Entity
 public class Borrow {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @ManyToMany
     private List<Book> books;
+
+    @Temporal(TemporalType.DATE) 
     private Date start;
+
+    @Temporal(TemporalType.DATE) 
     private Date requestedReturn;
+
     @OneToOne(cascade = CascadeType.ALL)
     private User borrower;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Librarian librarian;
+
     private boolean finished;
 
     public Long getId() {

@@ -9,6 +9,7 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -82,21 +83,50 @@ class BorrowRepositoryTest extends Base {
     @Test
     void countCurrentBorrowedBooksByUser() {
 
-        // TODO
+        Borrow borrowed = Fixtures.newBorrow(u1, l1, b1, b2);
+        Borrow finished = Fixtures.newBorrow(u1, l1, b3);
+        finished.setRequestedReturn(new Date());
+        finished.setFinished(true);
+        entityManager.persist(borrowed);
+        entityManager.persist(finished);
+        entityManager.flush();
+
+        int CurrentBorrowed = repository.countCurrentBorrowedBooksByUser(u1.getId());
+        assertThat(CurrentBorrowed).isEqualTo(2);
 
     }
 
     @Test
     void countBorrowedBooksByUser() {
+        Borrow borrowed = Fixtures.newBorrow(u1, l1, b1, b2);
+        Borrow finished = Fixtures.newBorrow(u1, l1, b3);
+        finished.setRequestedReturn(new Date());
+        finished.setFinished(true);
+        entityManager.persist(borrowed);
+        entityManager.persist(finished);
+        entityManager.flush();
 
-        // TODO
+        int borrowedBooks = repository.countBorrowedBooksByUser(u1.getId());
+        assertThat(borrowedBooks).isEqualTo(3);
 
     }
 
     @Test
     void foundAllLateBorrow() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, -2);
+        Date requestedReturnDate = calendar.getTime();
+        Borrow borrowed1 = Fixtures.newBorrow(u1, l1, b1);
+        Borrow borrowed2 = Fixtures.newBorrow(u2, l1, b3);
+        borrowed1.setRequestedReturn(requestedReturnDate);
+        borrowed1.setFinished(false);
+        entityManager.persist(borrowed1);
+        entityManager.persist(borrowed2);
+        entityManager.flush();
 
-        // TODO
+        List<Borrow> lateBorrow = repository.foundAllLateBorrow();
+        assertThat(lateBorrow).containsExactly(borrowed1);
 
     }
 
